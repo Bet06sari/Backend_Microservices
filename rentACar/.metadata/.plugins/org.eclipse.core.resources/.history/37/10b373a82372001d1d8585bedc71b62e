@@ -1,0 +1,19 @@
+package com.kodlamaio.inventoryService.business.responses.update;
+
+import com.kodlamaio.inventoryService.business.responses.get.GetAllCarResponse;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UpdateCarResponse {
+	private String id;
+	private double dailyPrice;
+	private int modelYear;
+	private String plate;
+	private String brandName;
+	private String modelName;
+}

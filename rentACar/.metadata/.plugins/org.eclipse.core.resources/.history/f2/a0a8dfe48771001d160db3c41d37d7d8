@@ -1,0 +1,5 @@
+package com.kodlamaoi.rentalService.business.response;
+
+public class GetAllRentalResponse {
+
+}

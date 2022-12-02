@@ -1,0 +1,5 @@
+package com.kodlamaoi.rentalService.business.request;
+
+public class UpdateRentalRequest {
+
+}

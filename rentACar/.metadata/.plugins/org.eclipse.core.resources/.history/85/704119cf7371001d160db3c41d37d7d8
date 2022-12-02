@@ -1,0 +1,16 @@
+package com.kodlamaoi.rentalService.business.concretes;
+
+import com.kodlamaio.common.utilities.mapping.ModelMapperService;
+import com.kodlamaoi.rentalService.business.abstracts.RentalService;
+import com.kodlamaoi.rentalService.dataAccess.abstracts.RentalRepository;
+
+@Service
+@AllArgsConstructor
+
+public class RentalManager implements RentalService{
+
+	private ModelMapperService modelMapperService;
+	private RentalRepository rentalRepository;
+
+
+}

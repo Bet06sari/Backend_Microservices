@@ -1,0 +1,42 @@
+package com.kodlamaoi.rentalService.business.concretes;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
+import com.kodlamaio.common.events.RentalCreatedEvent;
+import com.kodlamaio.common.utilities.mapping.ModelMapperService;
+import com.kodlamaoi.rentalService.business.abstracts.RentalService;
+import com.kodlamaoi.rentalService.business.request.CreateRentalRequest;
+import com.kodlamaoi.rentalService.business.response.CreateRentalResponse;
+import com.kodlamaoi.rentalService.dataAccess.abstracts.RentalRepository;
+import com.kodlamaoi.rentalService.entity.Rental;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class RentalManager implements RentalService{
+
+	private ModelMapperService modelMapperService;
+	private RentalRepository rentalRepository;
+	@Override
+	public CreateRentalResponse add(CreateRentalRequest createRentalRequest) {
+		Rental rental=this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
+		rental.setId(UUID.randomUUID().toString());
+		rental.setDateStarted(LocalDateTime.now());
+		this.rentalRepository.save(rental);
+		
+		RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
+		rentalCreatedEvent.setCarId(createRentalRequest.getCarId());
+		rentalCreatedEvent.setMessage("Rental Created");
+		
+		
+		CreateRentalResponse response = this.modelMapperService.forResponse().map(rental, CreateRentalResponse.class);
+		
+		return response;
+	}
+	
+	
+}
