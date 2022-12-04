@@ -26,8 +26,6 @@ public class RentalConsumer {
         
         carService.changeCarState(event.getCarId());
         LOGGER.info(event.getCarId()+ "state changed");
-        
-        // save the order event into the database
     }
 	
 	public void consume(RentalUpdatedCarEvent event){

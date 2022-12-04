@@ -14,8 +14,10 @@ import com.kodlamaio.inventoryService.business.requests.update.UpdateCarRequest;
 import com.kodlamaio.inventoryService.business.responses.create.CreateCarResponse;
 import com.kodlamaio.inventoryService.business.responses.get.GetAllCarResponse;
 import com.kodlamaio.inventoryService.business.responses.update.UpdateCarResponse;
+import com.kodlamaio.inventoryService.dataAccess.CarFilterRepository;
 import com.kodlamaio.inventoryService.dataAccess.CarRepository;
 import com.kodlamaio.inventoryService.entities.Car;
+import com.kodlamaio.inventoryService.entities.filter.CarFilter;
 
 import lombok.AllArgsConstructor;
 
@@ -25,6 +27,7 @@ public class CarManager   implements CarService{
 	
 	private CarRepository carRepository;
 	private ModelMapperService modelMapperService;
+	private CarFilterRepository carFilterRepository;
 
 	@Override
 	public List<GetAllCarResponse> getAll() {
@@ -43,6 +46,19 @@ public class CarManager   implements CarService{
 		car.setId(UUID.randomUUID().toString());
 
 		this.carRepository.save(car);
+		
+		GetAllCarResponse result = getById(car.getId());
+
+		CarFilter carFilter = new CarFilter();
+		carFilter.setCarId(result.getId());
+		carFilter.setCarDailyPrice(result.getDailyPrice());
+		carFilter.setCarModelYear(result.getModelYear());
+		carFilter.setCarPlate(result.getPlate());
+		carFilter.setCarModelId(result.getModelId());
+		carFilter.setCarModelName(result.getModelName());
+		carFilter.setCarModelBrandId(result.getModelBrandId());
+		carFilter.setCarModelBrandName(result.getModelBrandName());
+		carFilterRepository.insert(carFilter);
 
 		CreateCarResponse createCarResponse = this.modelMapperService.forResponse().map(car, CreateCarResponse.class);
 		return createCarResponse;
@@ -94,5 +110,12 @@ public class CarManager   implements CarService{
 		if (car.getState() == 3) {
             throw new BusinessException("CAR.NOT_AVAILABLE");
 		}
+	}
+	
+	@Override
+	public GetAllCarResponse getById(String carId) {
+		Car car = carRepository.findById(carId);
+		GetAllCarResponse response = modelMapperService.forResponse().map(car, GetAllCarResponse.class);
+		return response;
 	}
 }
