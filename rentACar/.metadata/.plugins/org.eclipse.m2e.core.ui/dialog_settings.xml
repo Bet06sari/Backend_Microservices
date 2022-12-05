@@ -2,6 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\microservices\rentACar\invoiceService"/>
+			<item value="C:\microservices\rentACar\paymentService"/>
 			<item value="C:\microservices\rentACar\rentalService"/>
 			<item value="C:\microservices\rentACar"/>
 		</list>

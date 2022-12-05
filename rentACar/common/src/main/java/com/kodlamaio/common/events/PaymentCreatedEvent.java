@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class PaymentCreatedEvent {
 	private String messages;
 	private String rentalId;
-
 }

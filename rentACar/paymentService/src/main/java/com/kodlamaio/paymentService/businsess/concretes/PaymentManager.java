@@ -40,6 +40,6 @@ public class PaymentManager implements PaymentService{
 						map(payment, GetAllPaymentsResponse.class)).collect(Collectors.toList());
 	}
 
-
+//github, linkedin ,hangi şehir tinylink
 
 }

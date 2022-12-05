@@ -24,5 +24,4 @@ public class PaymentController {
 	public CreatePaymentResponse add(@Valid @RequestBody CreatePaymentRequest createPaymentRequest) {
 		return paymentService.add(createPaymentRequest);
 	}
-
 }
