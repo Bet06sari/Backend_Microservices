@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kodlamaio.common.events.RentalCreatedEvent;
 import com.kodlamaio.common.events.RentalUpdatedCarEvent;
+import com.kodlamaio.common.requests.CreatePaymentRequest;
 import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaoi.rentalService.business.abstracts.RentalService;
@@ -18,6 +19,7 @@ import com.kodlamaoi.rentalService.business.response.CreateRentalResponse;
 import com.kodlamaoi.rentalService.business.response.GetAllRentalResponse;
 import com.kodlamaoi.rentalService.business.response.UpdateRentalResponse;
 import com.kodlamaoi.rentalService.client.CarClient;
+import com.kodlamaoi.rentalService.client.PaymentClient;
 import com.kodlamaoi.rentalService.dataAccess.abstracts.RentalRepository;
 import com.kodlamaoi.rentalService.entity.Rental;
 import com.kodlamaoi.rentalService.kafka.RentalProducer;
@@ -31,14 +33,19 @@ public class RentalManager implements RentalService{
 	private ModelMapperService modelMapperService;
 	private RentalRepository rentalRepository;
 	private RentalProducer rentalProducer;
-	private CarClient client;
+	private CarClient carClient;
+	private PaymentClient paymentClient;
 	
 	@Override
-	public CreateRentalResponse add(CreateRentalRequest createRentalRequest) {
-		client.checkIfCarAvailable(createRentalRequest.getCarId());
+	public CreateRentalResponse add(CreateRentalRequest createRentalRequest, CreatePaymentRequest paymentRequest) {
+		carClient.checkIfCarAvailable(createRentalRequest.getCarId());
 		Rental rental=this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		rental.setId(UUID.randomUUID().toString());
 		rental.setDateStarted(LocalDateTime.now());
+		double totalRentalPrice = rental.getDailyPrice()*rental.getRentedForDays();
+		rental.setTotalPrice(totalRentalPrice);
+		paymentClient.checkIfPaymentSuccessful(paymentRequest.getCardNumber(),
+                paymentRequest.getFullName(), paymentRequest.getCardCvv(),totalRentalPrice);
 		this.rentalRepository.save(rental);
 		// burda oluşturduğumuz kiralama işlemi messajı inventory e gönderiyoruz.. confuser->database ekledi, producer a bilgi gidiyor, 
 		//oda consumer a gönderiyor, inventory e gönderilir. o araç kiralandığı bilgisi oraya gider

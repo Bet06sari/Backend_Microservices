@@ -4,11 +4,11 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.kodlamaio.common.requests.CreatePaymentRequest;
 import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.paymentService.businsess.abstracts.PaymentService;
 import com.kodlamaio.paymentService.businsess.abstracts.PosService;
-import com.kodlamaio.paymentService.businsess.requests.CreatePaymentRequest;
 import com.kodlamaio.paymentService.businsess.requests.PaymentRequest;
 import com.kodlamaio.paymentService.businsess.responses.CreatePaymentResponse;
 import com.kodlamaio.paymentService.dataAccess.PaymentRepository;

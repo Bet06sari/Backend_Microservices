@@ -1,10 +1,8 @@
 package com.kodlamaoi.rentalService.client;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import feign.Headers;
 
 @FeignClient(value = "carclient", url = "http://localhost:9010/")

@@ -2,6 +2,8 @@ package com.kodlamaoi.rentalService.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kodlamaio.common.requests.CreatePaymentRequest;
 import com.kodlamaoi.rentalService.business.abstracts.RentalService;
 import com.kodlamaoi.rentalService.business.request.CreateRentalRequest;
 import com.kodlamaoi.rentalService.business.request.UpdateRentalRequest;
@@ -26,27 +30,30 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RentalController {
 	private RentalService rentalService;
-	
+
 	@PostMapping
-	public CreateRentalResponse add(@RequestBody CreateRentalRequest createRentalRequest) {
-		return this.rentalService.add(createRentalRequest);
+	public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest createRentalRequest,
+			@RequestParam String cardNumber, @RequestParam String fullName, @RequestParam String cardCvv) {
+		CreatePaymentRequest paymentRequest = new CreatePaymentRequest();
+		paymentRequest.setCardNumber(cardNumber);
+		paymentRequest.setFullName(fullName);
+		paymentRequest.setCardCvv(cardCvv);
+		return rentalService.add(createRentalRequest, paymentRequest);
 	}
-	
+
 	@GetMapping()
-	public List<GetAllRentalResponse> getAll(){
-		return this.rentalService.getAll();				
+	public List<GetAllRentalResponse> getAll() {
+		return this.rentalService.getAll();
 	}
-	
+
 	@PutMapping
 	public UpdateRentalResponse update(@RequestBody UpdateRentalRequest updateRentalRequest) {
 		return this.rentalService.update(updateRentalRequest);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable String id) {
 		this.rentalService.delete(id);
 	}
-	
-	
 
 }

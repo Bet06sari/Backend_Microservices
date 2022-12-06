@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kodlamaio.common.requests.CreatePaymentRequest;
 import com.kodlamaio.paymentService.businsess.abstracts.PaymentService;
-import com.kodlamaio.paymentService.businsess.requests.CreatePaymentRequest;
 import com.kodlamaio.paymentService.businsess.requests.PaymentRequest;
 import com.kodlamaio.paymentService.businsess.responses.CreatePaymentResponse;
 

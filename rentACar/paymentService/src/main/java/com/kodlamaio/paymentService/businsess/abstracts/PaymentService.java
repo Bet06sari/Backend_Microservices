@@ -1,6 +1,6 @@
 package com.kodlamaio.paymentService.businsess.abstracts;
 
-import com.kodlamaio.paymentService.businsess.requests.CreatePaymentRequest;
+import com.kodlamaio.common.requests.CreatePaymentRequest;
 import com.kodlamaio.paymentService.businsess.requests.PaymentRequest;
 import com.kodlamaio.paymentService.businsess.responses.CreatePaymentResponse;
 
