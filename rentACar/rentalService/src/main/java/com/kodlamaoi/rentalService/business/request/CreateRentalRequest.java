@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CreateRentalRequest {
-	@NotNull
     private String carId;
     @NotNull
     private int rentedForDays;

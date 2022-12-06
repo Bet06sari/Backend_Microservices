@@ -1,16 +1,16 @@
 package com.kodlamaio.paymentService.businsess.concretes;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.paymentService.businsess.abstracts.PaymentService;
+import com.kodlamaio.paymentService.businsess.abstracts.PosService;
 import com.kodlamaio.paymentService.businsess.requests.CreatePaymentRequest;
+import com.kodlamaio.paymentService.businsess.requests.PaymentRequest;
 import com.kodlamaio.paymentService.businsess.responses.CreatePaymentResponse;
-import com.kodlamaio.paymentService.businsess.responses.GetAllPaymentsResponse;
 import com.kodlamaio.paymentService.dataAccess.PaymentRepository;
 import com.kodlamaio.paymentService.entities.Payment;
 
@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 public class PaymentManager implements PaymentService{
 	private PaymentRepository paymentRepository;
 	private ModelMapperService modelMapperService;
+	private final PosService posService;
 
 	@Override
 	public CreatePaymentResponse add(CreatePaymentRequest request) {
@@ -34,12 +35,22 @@ public class PaymentManager implements PaymentService{
 	}
 
 	@Override
-	public List<GetAllPaymentsResponse> getAll() {
-		return paymentRepository.findAll().stream().
-				map(payment -> modelMapperService.forResponse().
-						map(payment, GetAllPaymentsResponse.class)).collect(Collectors.toList());
+	public void checkIfPaymentSuccessful(PaymentRequest request) {
+		checkPayment(request);
 	}
-
-//github, linkedin ,hangi şehir tinylink
+	
+	private void checkPayment(PaymentRequest request) {
+        if (!paymentRepository.existsByCardNumberAndFullNameAndCardCvv(request.getCardNumber(), request.getFullName(), request.getCardCvv())) {
+            throw new BusinessException("Invalid payment");
+        }
+        double balance = paymentRepository.findByCardNumber(request.getCardNumber()).getBalance();
+        if (balance < request.getPrice()) {
+            throw new BusinessException("No enough money");
+        }
+        posService.pay(); // Fake payment
+        Payment payment = paymentRepository.findByCardNumber(request.getCardNumber());
+        payment.setBalance(balance - request.getPrice());
+        paymentRepository.save(payment);
+    }
 
 }

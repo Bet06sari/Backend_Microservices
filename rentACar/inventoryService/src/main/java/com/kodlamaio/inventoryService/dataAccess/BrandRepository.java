@@ -7,6 +7,4 @@ import com.kodlamaio.inventoryService.entities.Brand;
 public interface BrandRepository extends JpaRepository<Brand, Integer> {
 	Brand findByName(String name);
 	Brand findById(String id);
-	
-
 }

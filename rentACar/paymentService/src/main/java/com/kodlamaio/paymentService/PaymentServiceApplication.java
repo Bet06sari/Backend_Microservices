@@ -11,8 +11,6 @@ import com.kodlamaio.common.utilities.mapping.ModelMapperManager;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 
 @SpringBootApplication
-@EnableDiscoveryClient
-@EnableFeignClients
 public class PaymentServiceApplication {
 
 	public static void main(String[] args) {

@@ -58,14 +58,14 @@ public class RentalManager implements RentalService{
 	}
 	@Override
 	public UpdateRentalResponse update(UpdateRentalRequest updateRentalRequest) {
-		checkIfRentalNotExistById(updateRentalRequest.getCarId());
-		Rental rentalOld = rentalRepository.getRentalById(updateRentalRequest.getCarId());
-		Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
-		this.rentalRepository.save(rental);
+		//checkIfRentalNotExistById(updateRentalRequest.getCarId());
+		Rental rentalOld = rentalRepository.getRentalById(updateRentalRequest.getCarId()); //eski aracın id sini aldım.
+		Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class); //obje oluştu rental adında
+		this.rentalRepository.save(rental); // yeni alacağım araç kaydoldu
 		
 		RentalUpdatedCarEvent rentalUpdatedCarEvent = new RentalUpdatedCarEvent();
 		rentalUpdatedCarEvent.setOldCarId(rentalOld.getCarId());
-		rentalUpdatedCarEvent.setNewCarId(rental.getCarId());
+		rentalUpdatedCarEvent.setNewCarId(rental.getCarId()); 
 		
 		rentalProducer.sendMessage(rentalUpdatedCarEvent);
 		return modelMapperService.forResponse().map(rental, UpdateRentalResponse.class);

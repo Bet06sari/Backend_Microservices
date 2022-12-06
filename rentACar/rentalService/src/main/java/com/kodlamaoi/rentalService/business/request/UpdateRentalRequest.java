@@ -1,7 +1,5 @@
 package com.kodlamaoi.rentalService.business.request;
 
-import java.time.LocalDateTime;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -15,8 +13,6 @@ import lombok.NoArgsConstructor;
 public class UpdateRentalRequest {
 	@NotNull
     private String carId;
-    @NotNull
-    private LocalDateTime dateStarted;
     @NotNull
     private int rentedForDays;
     @NotNull

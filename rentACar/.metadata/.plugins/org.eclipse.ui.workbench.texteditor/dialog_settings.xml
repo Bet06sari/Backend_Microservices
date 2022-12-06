@@ -9,6 +9,8 @@
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
 			<item value="model"/>
+			<item value="mongo"/>
+			<item value="openfe"/>
 			<item value="&#x09;&lt;/properties&gt;"/>
 			<item value="jpa"/>
 			<item value="order event"/>
