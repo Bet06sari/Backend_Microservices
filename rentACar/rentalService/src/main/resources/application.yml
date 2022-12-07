@@ -1,38 +1,9 @@
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    serviceUrl:
-      defaultZone: http://localhost:9000/eureka
-  instance:
-    instance-id: ${spring.application.name}:${instanceId:${random.value}}
-    prefer-ip-address: true
+
 spring:
-  application:
-    name: rental
-  datasource:
-    password: 12345
-    url: jdbc:postgresql://localhost:5432/rentacarinventorydb
-    username: postgres
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-      javax:
-        persistence:
-          validation:
-            mode: none
-    show-sql: true
-  kafka:
-    producer:
-      bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-    topic:
-      name: rental_topics3
-  zipkin:
-    base-url: http://localhost:9411
+    application:
+        name: rentalService
+    cloud:
+        config:
+            profile: dev
+    config:
+        import: configserver:http://localhost:8888

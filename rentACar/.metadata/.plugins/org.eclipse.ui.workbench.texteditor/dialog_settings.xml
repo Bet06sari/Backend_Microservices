@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="model"/>
+		<item key="selection" value="feign"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="feign"/>
+			<item value="post"/>
+			<item value="pos"/>
+			<item value="po"/>
+			<item value="postgr"/>
 			<item value="model"/>
 			<item value="mongo"/>
 			<item value="openfe"/>
@@ -18,8 +23,6 @@
 			<item value="checkIfCarAvailable"/>
 			<item value="findByPlate"/>
 			<item value="findById"/>
-			<item value="clie"/>
-			<item value="modelm"/>
 		</list>
 		<list key="replacehistory">
 		</list>
