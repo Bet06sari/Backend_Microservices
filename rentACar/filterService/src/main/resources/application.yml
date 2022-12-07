@@ -1,8 +1,8 @@
 spring:
     application:
-        name: filter-service
+        name: filterService
     cloud:
         config:
-            profile: ${PROFILE}
+            profile: dev
     config:
-        import: configserver:http://localhost:8888,optional:file:.env[.properties]
+        import: configserver:http://localhost:8888
