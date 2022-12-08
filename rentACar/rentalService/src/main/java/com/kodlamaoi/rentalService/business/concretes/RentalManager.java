@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.kodlamaio.common.events.InvoiceCreatedEvent;
 import com.kodlamaio.common.events.RentalCreatedEvent;
 import com.kodlamaio.common.events.RentalUpdatedCarEvent;
 import com.kodlamaio.common.requests.CreatePaymentRequest;
+import com.kodlamaio.common.responses.GetAllCarResponse;
 import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaoi.rentalService.business.abstracts.RentalService;
@@ -19,6 +21,7 @@ import com.kodlamaoi.rentalService.business.response.CreateRentalResponse;
 import com.kodlamaoi.rentalService.business.response.GetAllRentalResponse;
 import com.kodlamaoi.rentalService.business.response.UpdateRentalResponse;
 import com.kodlamaoi.rentalService.client.CarClient;
+import com.kodlamaoi.rentalService.client.InventoryClient;
 import com.kodlamaoi.rentalService.client.PaymentClient;
 import com.kodlamaoi.rentalService.dataAccess.abstracts.RentalRepository;
 import com.kodlamaoi.rentalService.entity.Rental;
@@ -35,6 +38,7 @@ public class RentalManager implements RentalService{
 	private RentalProducer rentalProducer;
 	private CarClient carClient;
 	private PaymentClient paymentClient;
+	private InventoryClient inventoryClient;
 	
 	@Override
 	public CreateRentalResponse add(CreateRentalRequest createRentalRequest, CreatePaymentRequest paymentRequest) {
@@ -53,7 +57,7 @@ public class RentalManager implements RentalService{
 		RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
 		rentalCreatedEvent.setCarId(createRentalRequest.getCarId());
 		rentalCreatedEvent.setMessage("Rental Created");
-		//createInvoiceProducer(rental,paymentRequest);
+		createInvoiceProducer(rental,paymentRequest);
 		rentalProducer.sendMessage(rentalCreatedEvent);
 		CreateRentalResponse response = this.modelMapperService.forResponse().map(rental, CreateRentalResponse.class);
 		return response;
@@ -65,8 +69,8 @@ public class RentalManager implements RentalService{
 		return response;
 	}
 	@Override
-	public UpdateRentalResponse update(UpdateRentalRequest updateRentalRequest) {
-		//checkIfRentalNotExistById(updateRentalRequest.getCarId());
+	public UpdateRentalResponse update(String id, UpdateRentalRequest updateRentalRequest) {
+		checkIfRentalNotExistById(updateRentalRequest.getCarId());
 		Rental rentalOld = rentalRepository.getRentalById(updateRentalRequest.getCarId()); //eski aracın id sini aldım.
 		Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class); //obje oluştu rental adında
 		this.rentalRepository.save(rental); // yeni alacağım araç kaydoldu
@@ -91,5 +95,17 @@ public class RentalManager implements RentalService{
 		if(currentRental == null)
 			throw new BusinessException("Rental not found");
 	}
+	
+	private void createInvoiceProducer(Rental rental, CreatePaymentRequest paymentRequest) {
+        InvoiceCreatedEvent invoiceCreateEvent = new InvoiceCreatedEvent();
+        GetAllCarResponse car = inventoryClient.getCarById(rental.getCarId());
+        invoiceCreateEvent.setBrandName(car.getBrandName());
+        invoiceCreateEvent.setModelName(car.getModelName());
+        invoiceCreateEvent.setTotalPrice(rental.getTotalPrice());
+        invoiceCreateEvent.setFullName(paymentRequest.getFullName());
+        invoiceCreateEvent.setDailyPrice(rental.getDailyPrice());
+        invoiceCreateEvent.setRentedForDays(rental.getRentedForDays());
+        rentalProducer.sendMessage(invoiceCreateEvent);
+    }
 		
 }

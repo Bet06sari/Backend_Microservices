@@ -1,5 +1,6 @@
 package com.kodlamaio.invoiceService.dataAccess;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.kodlamaio.invoiceService.entities.Invoice;

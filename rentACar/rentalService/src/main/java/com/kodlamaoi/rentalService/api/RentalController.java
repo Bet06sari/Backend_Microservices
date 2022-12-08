@@ -45,10 +45,10 @@ public class RentalController {
 		return this.rentalService.getAll();
 	}
 
-	@PutMapping
-	public UpdateRentalResponse update(@RequestBody UpdateRentalRequest updateRentalRequest) {
-		return this.rentalService.update(updateRentalRequest);
-	}
+	@PutMapping("/{id}")
+    public UpdateRentalResponse update(@PathVariable String id,@RequestBody UpdateRentalRequest updateRentalRequest){
+        return rentalService.update(id,updateRentalRequest);
+    }
 
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable String id) {

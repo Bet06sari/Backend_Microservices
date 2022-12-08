@@ -2,10 +2,10 @@ package com.kodlamaio.inventoryService.business.abstracts;
 
 import java.util.List;
 
+import com.kodlamaio.common.responses.GetAllCarResponse;
 import com.kodlamaio.inventoryService.business.requests.create.CreateCarRequest;
 import com.kodlamaio.inventoryService.business.requests.update.UpdateCarRequest;
 import com.kodlamaio.inventoryService.business.responses.create.CreateCarResponse;
-import com.kodlamaio.inventoryService.business.responses.get.GetAllCarResponse;
 import com.kodlamaio.inventoryService.business.responses.update.UpdateCarResponse;
 
 public interface CarService {

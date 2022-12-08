@@ -24,7 +24,7 @@ public class FilterConsumer {
 
     @KafkaListener(
     		topics = "${spring.kafka.topic.name}"
-            , groupId = "inventory-create"
+            , groupId = "created_filter"
     )
     public void consume(CarCreatedEvent event) {
     	Filter carFilter = modelMapperService.forRequest().map(event, Filter.class);

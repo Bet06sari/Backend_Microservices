@@ -10,26 +10,36 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.common.events.CarCreatedEvent;
+import com.kodlamaio.common.events.CarUpdateEvent;
+
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class FilterServiceProducer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FilterServiceProducer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FilterServiceProducer.class);
 
     private final NewTopic topic;
 
-    private final KafkaTemplate<String, CarCreatedEvent> kafkaTemplate;
-    
-    public FilterServiceProducer(NewTopic topic, KafkaTemplate<String, CarCreatedEvent> kafkaTemplate) {
-		this.topic = topic;
-		this.kafkaTemplate = kafkaTemplate;
-	}
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-	public void sendMessage(CarCreatedEvent event) {
+    public void sendMessage(CarCreatedEvent event) {
         LOGGER.info(String.format("Car created event for filter-service => %s", event.toString()));
-        
+
         Message<CarCreatedEvent> message = MessageBuilder
                 .withPayload(event)
                 .setHeader(KafkaHeaders.TOPIC, topic.name()).build();
+
+        kafkaTemplate.send(message);
+    }
+
+    public void sendMessage(CarUpdateEvent event) {
+        LOGGER.info(String.format("Car updated event for filter-service => %s", event.toString()));
+
+        Message<CarUpdateEvent> message = MessageBuilder
+                .withPayload(event)
+                .setHeader(KafkaHeaders.TOPIC, topic.name()).build();
+
         kafkaTemplate.send(message);
     }
 }

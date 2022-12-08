@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kodlamaio.common.events.InvoiceCreatedEvent;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.invoiceService.business.abstracts.InvoiceService;
-import com.kodlamaio.invoiceService.business.requests.CreateInvoiceRequest;
+import com.kodlamaio.invoiceService.entities.Invoice;
 
 import lombok.AllArgsConstructor;
 
@@ -22,9 +22,10 @@ public class PaymentConsumer {
 
 	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "PaymentInvoiceCreate")
 	public void consume(InvoiceCreatedEvent event) {
-		LOGGER.info(String.format("Order event received in stock service => %s", event.toString()));
-		CreateInvoiceRequest request = mapperService.forRequest().map(event, CreateInvoiceRequest.class);
-		invoiceService.add(request);
+		LOGGER.info(String.format("Order event received in invoice-service => %s", event.toString()));
+        Invoice invoice = mapperService.forRequest().map(event,Invoice.class);
+        invoiceService.add(invoice);
+        LOGGER.info("invoice created");
 	}
 
 }

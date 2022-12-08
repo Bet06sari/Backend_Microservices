@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.invoiceService.business.abstracts.InvoiceService;
-import com.kodlamaio.invoiceService.business.requests.CreateInvoiceRequest;
-import com.kodlamaio.invoiceService.business.responses.CreateInvoiceResponse;
 import com.kodlamaio.invoiceService.business.responses.GetAllInvoicesResponse;
 import com.kodlamaio.invoiceService.dataAccess.InvoiceRepository;
 import com.kodlamaio.invoiceService.entities.Invoice;
@@ -20,22 +18,21 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class InvoiceManager implements InvoiceService{
 
-	private final InvoiceRepository invoiceRepository;
-	private final ModelMapperService mapperService;
+	private InvoiceRepository invoiceRepository;
+	private ModelMapperService mapperService;
 	
 	@Override
-	public List<GetAllInvoicesResponse> getAll() {
-		return invoiceRepository.findAll().stream()
-				.map(i -> mapperService.forResponse().map(i, GetAllInvoicesResponse.class))
-				.collect(Collectors.toList());
-	}
+    public List<GetAllInvoicesResponse> getAll() {
+        List<Invoice> invoiceList = invoiceRepository.findAll();
+        List<GetAllInvoicesResponse> response = invoiceList.stream()
+                .map(invoice -> mapperService.forResponse().map(invoice,GetAllInvoicesResponse.class))
+                .collect(Collectors.toList());
+        return response;
+    }
 
 	@Override
-	public CreateInvoiceResponse add(CreateInvoiceRequest request) {
-		Invoice invoice = mapperService.forRequest().map(request, Invoice.class);
-		invoice.setId(UUID.randomUUID().toString());
-		invoiceRepository.save(invoice);
-		return mapperService.forResponse().map(invoice, CreateInvoiceResponse.class);
-	}
-
+    public void add(Invoice invoice) {
+        invoice.setId(UUID.randomUUID().toString());
+        invoiceRepository.save(invoice);
+    }
 }

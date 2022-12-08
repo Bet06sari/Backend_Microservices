@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.common.events.CarCreatedEvent;
+import com.kodlamaio.common.responses.GetAllCarResponse;
 import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.inventoryService.business.abstracts.CarService;
 import com.kodlamaio.inventoryService.business.requests.create.CreateCarRequest;
 import com.kodlamaio.inventoryService.business.requests.update.UpdateCarRequest;
 import com.kodlamaio.inventoryService.business.responses.create.CreateCarResponse;
-import com.kodlamaio.inventoryService.business.responses.get.GetAllCarResponse;
 import com.kodlamaio.inventoryService.business.responses.update.UpdateCarResponse;
 import com.kodlamaio.inventoryService.dataAccess.CarRepository;
 import com.kodlamaio.inventoryService.entities.Car;
@@ -103,7 +103,7 @@ public class CarManager   implements CarService{
 	public GetAllCarResponse getById(String carId) {
 		Car car = carRepository.findById(carId);
 		GetAllCarResponse response = modelMapperService.forResponse().map(car, GetAllCarResponse.class);
-		return response;
+        return response;
 	}
 	
 	private void addToFilterService(String id) {

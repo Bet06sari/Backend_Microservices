@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kodlamaio.common.responses.GetAllCarResponse;
 import com.kodlamaio.inventoryService.business.abstracts.CarService;
 import com.kodlamaio.inventoryService.business.requests.create.CreateCarRequest;
 import com.kodlamaio.inventoryService.business.requests.update.UpdateCarRequest;
 import com.kodlamaio.inventoryService.business.responses.create.CreateCarResponse;
-import com.kodlamaio.inventoryService.business.responses.get.GetAllCarResponse;
 import com.kodlamaio.inventoryService.business.responses.update.UpdateCarResponse;
 
 import lombok.AllArgsConstructor;
@@ -55,6 +55,11 @@ public class CarController {
 	 @GetMapping("/checkIfCarAvailable/{id}")
 	 public void checkIfCarAvailable(@PathVariable String id) {
 		 carService.checkIfCarAvailable(id);
-	    }
+	 }
+	 
+	 @GetMapping("/{id}")
+	    public GetAllCarResponse getById(@PathVariable String id) {
+	        return carService.getById(id);
+	 }
 	
 }

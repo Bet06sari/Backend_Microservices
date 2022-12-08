@@ -22,5 +22,8 @@ public class CreateCarRequest {
     @NotBlank
     @NotNull
     private String modelId;
+    @NotBlank
+    @NotNull
+    private int state;
 	
 }

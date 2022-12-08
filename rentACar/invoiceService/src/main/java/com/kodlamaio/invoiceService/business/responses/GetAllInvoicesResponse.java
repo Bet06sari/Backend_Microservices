@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GetAllInvoicesResponse {
 	private String id;
-	private String rentalId;
-	private double totalPrice;
-	private String cardHolder;
+    private String fullName;
+    private String brandName;
+    private String modelName;
+    private double dailyPrice;
+    private int rentedForDays;
+    private double totalPrice;
 
 }
