@@ -12,7 +12,6 @@ import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-
 public class InventoryServiceApplication {
 
 	

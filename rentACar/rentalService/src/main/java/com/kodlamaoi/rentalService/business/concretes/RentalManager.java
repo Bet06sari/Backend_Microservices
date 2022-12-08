@@ -53,7 +53,8 @@ public class RentalManager implements RentalService{
 		RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
 		rentalCreatedEvent.setCarId(createRentalRequest.getCarId());
 		rentalCreatedEvent.setMessage("Rental Created");
-		
+		//createInvoiceProducer(rental,paymentRequest);
+		rentalProducer.sendMessage(rentalCreatedEvent);
 		CreateRentalResponse response = this.modelMapperService.forResponse().map(rental, CreateRentalResponse.class);
 		return response;
 	}

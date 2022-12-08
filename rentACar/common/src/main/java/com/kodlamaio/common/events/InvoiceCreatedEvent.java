@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvoiceCreatedEvent {
-	private String message;
-	private String rentalId;
+	private String fullName;
+	private String brandName;
+	private String modelName;
+	private double dailyPrice;
+	private int rentedForDays;
 	private double totalPrice;
-	private String cardHolder;
 }

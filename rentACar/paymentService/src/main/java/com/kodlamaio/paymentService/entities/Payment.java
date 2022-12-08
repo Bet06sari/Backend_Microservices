@@ -26,7 +26,5 @@ public class Payment {
 	private String cardCvv;
 	@Column(name = "balance")
 	private double balance;
-	@Column(name = "statusPayment")
-	private int statusPayment;
 
 }

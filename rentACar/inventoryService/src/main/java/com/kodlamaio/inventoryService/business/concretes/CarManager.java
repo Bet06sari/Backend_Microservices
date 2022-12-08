@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.kodlamaio.common.events.CarCreatedEvent;
 import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.inventoryService.business.abstracts.CarService;
@@ -16,6 +17,7 @@ import com.kodlamaio.inventoryService.business.responses.get.GetAllCarResponse;
 import com.kodlamaio.inventoryService.business.responses.update.UpdateCarResponse;
 import com.kodlamaio.inventoryService.dataAccess.CarRepository;
 import com.kodlamaio.inventoryService.entities.Car;
+import com.kodlamaio.inventoryService.kafka.FilterServiceProducer;
 
 import lombok.AllArgsConstructor;
 
@@ -23,9 +25,11 @@ import lombok.AllArgsConstructor;
 @Service
 public class CarManager   implements CarService{
 	
-	private CarRepository carRepository;
-	private ModelMapperService modelMapperService;
-
+	private final CarRepository carRepository;
+	private final ModelMapperService modelMapperService;
+	private FilterServiceProducer filterServiceProducer;
+	
+	
 	@Override
 	public List<GetAllCarResponse> getAll() {
 
@@ -39,13 +43,12 @@ public class CarManager   implements CarService{
 
 	@Override
 	public CreateCarResponse add(CreateCarRequest createCarRequest) {
-		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
-		car.setId(UUID.randomUUID().toString());
-
-		this.carRepository.save(car);
-		//GetAllCarResponse result = getById(car.getId());
-		CreateCarResponse createCarResponse = this.modelMapperService.forResponse().map(car, CreateCarResponse.class);
-		return createCarResponse;
+		Car car = modelMapperService.forRequest().map(createCarRequest, Car.class);
+        car.setId(UUID.randomUUID().toString());
+        carRepository.save(car);
+        CreateCarResponse response = modelMapperService.forResponse().map(car, CreateCarResponse.class);
+        addToFilterService(response.getId());
+        return response;
 	}
 
 	@Override
@@ -91,8 +94,8 @@ public class CarManager   implements CarService{
 	@Override
 	public void checkIfCarAvailable(String id) {
 		Car car = carRepository.findById(id);
-		if (car.getState() == 3) {
-            throw new BusinessException("CAR.NOT_AVAILABLE");
+		if (car==null || car.getState() == 3) {
+            throw new BusinessException("CAR NOT_AVAILABLE");
 		}
 	}
 	
@@ -102,4 +105,13 @@ public class CarManager   implements CarService{
 		GetAllCarResponse response = modelMapperService.forResponse().map(car, GetAllCarResponse.class);
 		return response;
 	}
+	
+	private void addToFilterService(String id) {
+        Car car = carRepository.findById(id);
+        CarCreatedEvent event = modelMapperService.forResponse().map(car,CarCreatedEvent.class);
+        event.setMessage("car added");
+        filterServiceProducer.sendMessage(event);
+    }
+	
+	
 }

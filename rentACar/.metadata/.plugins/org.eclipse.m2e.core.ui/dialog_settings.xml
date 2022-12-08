@@ -2,10 +2,10 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
-			<item value="C:\microservices\rentACar\paymentService"/>
-			<item value="C:\microservices\rentACar\config-server"/>
-			<item value="C:\microservices\rentACar\apigateway"/>
 			<item value="C:\microservices\rentACar\filterService"/>
+			<item value="C:\microservices\rentACar\config-server"/>
+			<item value="C:\microservices\rentACar\paymentService"/>
+			<item value="C:\microservices\rentACar\apigateway"/>
 			<item value="C:\microservices\rentACar\invoiceService"/>
 			<item value="C:\microservices\rentACar\rentalService"/>
 			<item value="C:\microservices\rentACar"/>

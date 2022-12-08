@@ -28,7 +28,7 @@ public class PaymentManager implements PaymentService{
 		Payment payment = this.modelMapperService.forRequest().map(request, Payment.class);
 		payment.setId(UUID.randomUUID().toString());
 		this.paymentRepository.save(payment);
-		CreatePaymentResponse createPaymentResponse = this.modelMapperService.forResponse().map(payment,
+		CreatePaymentResponse createPaymentResponse = modelMapperService.forResponse().map(payment,
 				CreatePaymentResponse.class);
 
 		return createPaymentResponse;

@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PaymentController {
 
-	private PaymentService paymentService;
+	private final PaymentService paymentService;
 
 	@PostMapping
 	public CreatePaymentResponse add(@RequestBody CreatePaymentRequest createPaymentRequest) {

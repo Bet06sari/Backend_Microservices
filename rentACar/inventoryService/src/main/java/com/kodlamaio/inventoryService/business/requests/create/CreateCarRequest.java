@@ -1,6 +1,5 @@
 package com.kodlamaio.inventoryService.business.requests.create;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,18 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCarRequest {
-	@Min(0)
-	private double dailyPrice;
-	@Min(2015)
-	private int modelYear;
-	@NotBlank
-	@NotNull
-	private String plate;
-	@Min(1)
-	@Max(3)
-	private int state;
-	@NotBlank
-	@NotNull
-	private String modelId;
+	@Min(value = 0)
+    private double dailyPrice;
+    @Min(value = 2015)
+    private int modelYear;
+    @NotBlank
+    @NotNull
+    private String plate;
+    @NotBlank
+    @NotNull
+    private String modelId;
 	
 }
