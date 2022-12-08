@@ -14,7 +14,7 @@ public interface CarService {
 	void delete(String id);
 	UpdateCarResponse update (UpdateCarRequest updateCarRequest);
 	void changeCarState(String id);
-	void changeCarState(String oldCarId, String newCarId);
+	void changeCarState(String oldCarId, int state);
 	void checkIfCarAvailable(String id);
 	
 	GetAllCarResponse getById(String carId);

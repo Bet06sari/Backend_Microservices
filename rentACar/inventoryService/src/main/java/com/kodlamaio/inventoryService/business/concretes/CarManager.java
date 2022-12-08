@@ -65,17 +65,6 @@ public class CarManager   implements CarService{
 		carRepository.save(car);
 	}
 
-	@Override
-	public void changeCarState(String oldCarId, String newCarId) {
-		Car oldCar = carRepository.findById(oldCarId);
-		Car newCar = carRepository.findById(newCarId);
-		oldCar.setId(oldCar.getId());
-		newCar.setId(newCar.getId());
-		
-		carRepository.save(oldCar);
-		carRepository.save(newCar);
-		
-	}
 
 	@Override
 	public UpdateCarResponse update(UpdateCarRequest updateCarRequest) {
@@ -112,6 +101,12 @@ public class CarManager   implements CarService{
         event.setMessage("car added");
         filterServiceProducer.sendMessage(event);
     }
+
+	@Override
+	public void changeCarState(String oldCarId, int state) {
+		carRepository.setCarStateById(oldCarId,state);
+		
+	}
 	
 	
 }

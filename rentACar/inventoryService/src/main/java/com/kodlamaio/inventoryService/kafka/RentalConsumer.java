@@ -6,6 +6,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.common.events.RentalCreatedEvent;
+import com.kodlamaio.common.events.RentalUpdatedCarEvent;
 import com.kodlamaio.inventoryService.business.abstracts.CarService;
 
 @Service
@@ -25,6 +26,15 @@ public class RentalConsumer {
         
         carService.changeCarState(event.getCarId());
         LOGGER.info(event.getCarId()+ "state changed");
+    }
+	
+	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "rentalUpdate")
+    public void consume(RentalUpdatedCarEvent RentalUpdatedCarEvent) {
+        LOGGER.info(String.format("Order event received in stock service => %s", RentalUpdatedCarEvent.toString()));
+        LOGGER.info("Car state changed");
+        carService.changeCarState(RentalUpdatedCarEvent.getNewCarId(), 2);
+        carService.changeCarState(RentalUpdatedCarEvent.getOldCarId(), 1);
+        // save the order event into the database
     }
 	
 }
