@@ -1,7 +1,0 @@
-package com.kodlamaio.inventoryService.dataAccess;
-
-import org.springframework.data.mongodb.repository.MongoRepository;
-
-public interface CarFilterRepository extends MongoRepository<CarFilter,String> {
-
-}

@@ -16,8 +16,8 @@ public class RentalConsumer {
 	//daha önce gönderilen topic adını al carın id si, consumerların grup id si, grupId hangisinin grup eventi al gibi
 	
 	@KafkaListener(
-            topics = "${spring.kafka.topic.name}"
-            ,groupId = "${spring.kafka.consumer.group-id}"
+            topics = "rental-create"
+            ,groupId = "rentalCreate"
     )
 	
 	//update için de bu tarzda bir kod yazabiliriz
@@ -28,7 +28,7 @@ public class RentalConsumer {
         LOGGER.info(event.getCarId()+ "state changed");
     }
 	
-	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "rentalUpdate")
+	@KafkaListener(topics = "rental-update", groupId = "rentalUpdate")
     public void consume(RentalUpdatedCarEvent RentalUpdatedCarEvent) {
         LOGGER.info(String.format("Order event received in stock service => %s", RentalUpdatedCarEvent.toString()));
         LOGGER.info("Car state changed");

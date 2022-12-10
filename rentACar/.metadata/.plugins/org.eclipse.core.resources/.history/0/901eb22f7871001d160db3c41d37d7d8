@@ -1,5 +1,0 @@
-package com.kodlamaoi.rentalService.configurations.kafka;
-
-public class KafkaTopicConfiguration {
-
-}

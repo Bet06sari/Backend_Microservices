@@ -1,5 +1,0 @@
-package com.kodlamaio.inventoryService.kafka;
-
-public class RentalConsumer {
-
-}

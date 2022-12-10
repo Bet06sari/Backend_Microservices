@@ -25,7 +25,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/cars")
-
 public class CarController {
 	
 	private CarService carService;

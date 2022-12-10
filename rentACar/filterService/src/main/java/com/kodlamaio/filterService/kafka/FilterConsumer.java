@@ -23,7 +23,7 @@ public class FilterConsumer {
     private final ModelMapperService modelMapperService;
 
     @KafkaListener(
-    		topics = "${spring.kafka.topic.name}"
+    		topics = "createdFilter"
             , groupId = "created_filter"
     )
     public void consume(CarCreatedEvent event) {

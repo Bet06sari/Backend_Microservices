@@ -1,5 +1,0 @@
-package com.kodlamaoi.rentalService.client;
-
-public interface CarClient {
-
-}

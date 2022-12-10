@@ -1,9 +1,0 @@
-package com.kodlamaoi.rentalService.business.abstracts;
-
-import com.kodlamaoi.rentalService.business.request.CreateRentalRequest;
-import com.kodlamaoi.rentalService.business.response.CreateRentalResponse;
-
-public interface RentalService {
-
-	CreateRentalResponse add(CreateRentalRequest createRentalRequest);
-}

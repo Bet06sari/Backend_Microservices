@@ -105,7 +105,7 @@ public class RentalManager implements RentalService{
         invoiceCreateEvent.setFullName(paymentRequest.getFullName());
         invoiceCreateEvent.setDailyPrice(rental.getDailyPrice());
         invoiceCreateEvent.setRentedForDays(rental.getRentedForDays());
-        rentalProducer.sendMessage(invoiceCreateEvent);
+        //rentalProducer.sendMessage(invoiceCreateEvent);
     }
 		
 }
