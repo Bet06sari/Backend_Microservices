@@ -14,5 +14,6 @@ public interface FilterRepository extends MongoRepository<Filter,String> {
     List<Filter> findAllByModelId(String modelId);
     List<Filter> findAllByBrandId(String modelId);
     void deleteByCarId(String carId);
+    List<Filter> findAllByModelNameIgnoreCaseOrBrandNameIgnoreCase(String name);
 
 }

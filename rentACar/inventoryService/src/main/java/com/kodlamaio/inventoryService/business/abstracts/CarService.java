@@ -12,10 +12,9 @@ public interface CarService {
 	List<GetAllCarResponse> getAll();
 	CreateCarResponse add(CreateCarRequest createCarRequest);
 	void delete(String id);
-	UpdateCarResponse update (UpdateCarRequest updateCarRequest);
-	void changeCarState(String id);
+	UpdateCarResponse update (UpdateCarRequest updateCarRequest, String id);
 	void changeCarState(String oldCarId, int state);
-	void checkIfCarAvailable(String id);
+	void carAvialibleState(String carId);
 	
 	GetAllCarResponse getById(String carId);
 }

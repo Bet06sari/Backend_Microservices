@@ -46,14 +46,14 @@ public class CarController {
 		 carService.delete(id);
 	}
 	
-	@PutMapping("/{id}")
-	public UpdateCarResponse update (@RequestBody UpdateCarRequest updateCarRequest) {
-		return this.carService.update(updateCarRequest);
-	}
+	 @PutMapping("/{id}")
+	    public UpdateCarResponse update(@RequestBody UpdateCarRequest request, @PathVariable String id) {
+	        return carService.update(request, id);
+	 }
 	
-	 @GetMapping("/checkIfCarAvailable/{id}")
-	 public void checkIfCarAvailable(@PathVariable String id) {
-		 carService.checkIfCarAvailable(id);
+	 @GetMapping("/carAvialibleState/{carId}")
+	    public void carAvialibleState(@PathVariable String carId){
+	        carService.carAvialibleState(carId);
 	 }
 	 
 	 @GetMapping("/{id}")

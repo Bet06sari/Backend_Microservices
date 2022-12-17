@@ -10,7 +10,8 @@ import com.kodlamaio.inventoryService.entities.Car;
 
 public interface CarRepository extends JpaRepository<Car, Integer>{
 	Car findById(String id);
-	Car findByState(int id);
+	Car deleteById(String id);
+	boolean existsByPlateIgnoreCase(String plate);
 	
 	@Modifying
     @Query(value = "update Cars set state = :state where id = :id", nativeQuery = true)

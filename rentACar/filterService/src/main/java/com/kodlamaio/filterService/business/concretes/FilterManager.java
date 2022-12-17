@@ -2,7 +2,9 @@ package com.kodlamaio.filterService.business.concretes;
 
 
 
-import lombok.AllArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
@@ -11,9 +13,7 @@ import com.kodlamaio.filterService.business.responses.GetAllCarFiltersResponse;
 import com.kodlamaio.filterService.dataAccess.FilterRepository;
 import com.kodlamaio.filterService.entities.Filter;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 
 
 @Service
@@ -82,6 +82,12 @@ public class FilterManager implements FilterService{
 	public void deleteByCarId(String id) {
 		filterRepository.deleteByCarId(id);
 		
+	}
+
+	@Override
+	public List<Filter> getByBrandNameOrModelName(String name) {
+		List<Filter> filters = filterRepository.findAllByModelNameIgnoreCaseOrBrandNameIgnoreCase(name);
+        return filters;
 	}
 
 }

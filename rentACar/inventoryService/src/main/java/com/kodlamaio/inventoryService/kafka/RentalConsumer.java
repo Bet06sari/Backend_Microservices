@@ -9,7 +9,10 @@ import com.kodlamaio.common.events.RentalCreatedEvent;
 import com.kodlamaio.common.events.RentalUpdatedCarEvent;
 import com.kodlamaio.inventoryService.business.abstracts.CarService;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class RentalConsumer {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RentalConsumer.class);
 	CarService carService;
@@ -24,16 +27,20 @@ public class RentalConsumer {
     public void consume(RentalCreatedEvent event){
         LOGGER.info(String.format("Order event received in stock service => %s", event.toString()));
         
-        carService.changeCarState(event.getCarId());
-        LOGGER.info(event.getCarId()+ "state changed");
+        carService.changeCarState(event.getCarId(),2);
+        LOGGER.info("Car rented");
     }
 	
-	@KafkaListener(topics = "rental-update", groupId = "rentalUpdate")
+	@KafkaListener(
+			topics = "rental-update"
+			, groupId = "rentalUpdate"
+	)
     public void consume(RentalUpdatedCarEvent RentalUpdatedCarEvent) {
         LOGGER.info(String.format("Order event received in stock service => %s", RentalUpdatedCarEvent.toString()));
         LOGGER.info("Car state changed");
         carService.changeCarState(RentalUpdatedCarEvent.getNewCarId(), 2);
         carService.changeCarState(RentalUpdatedCarEvent.getOldCarId(), 1);
+        LOGGER.info("Cars state changed");
         // save the order event into the database
     }
 	
